@@ -214,35 +214,27 @@ class ApproximateQAgent(PacmanQAgent):
         return self.weights
 
     def getQValue(self, state, action):
-        """
-          Should return Q(state,action) = w * featureVector
-          where * is the dotProduct operator
-        """
-        "*** YOUR CODE HERE ***"
-        qvalue=0
-        features=self.featExtractor.getFeatures(state,action)
+        qvalue = 0
+        features = self.featExtractor.getFeatures(state, action)
         for key in features:
-            qvalue = qvalue + features[key]*self.weights[key]
-#         print "Features:",features
-#         print "Weights:",self.weights
-#         print "qValue:",qvalue
+            qvalue = qvalue + features[key] * self.weights[key]
+        print "Features:",features
+        print "Weights:",self.weights
+        print "qValue:",qvalue
         return qvalue
 
     def update(self, state, action, nextState, reward):
-        """
-           Should update your weights based on transition
-        """
-        maxQValue=-999999
-        legalActions=self.getLegalActions(nextState)
+        maxQValue = -999999
+        legalActions = self.getLegalActions(nextState)
         for laction in legalActions:
-            qValue=self.getQValue(nextState, laction)
-            if qValue>maxQValue:
-                maxQValue=qValue
-        if(len(legalActions)==0):maxQValue=0
-        difference=(reward+self.discount*maxQValue)-self.getQValue(state, action)
-        features=self.featExtractor.getFeatures(state,action)
+            qValue = self.getQValue(nextState, laction)
+            if qValue > maxQValue:
+                maxQValue = qValue
+        if(len(legalActions) == 0): maxQValue = 0
+        difference = (reward + self.discount * maxQValue) - self.getQValue(state, action)
+        features = self.featExtractor.getFeatures(state, action)
         for fkey in features:
-            self.weights[fkey]=self.weights[fkey]+self.alpha*difference*features[fkey]
+            self.weights[fkey] = self.weights[fkey] + self.alpha * difference * features[fkey]
             
 
     def final(self, state):
