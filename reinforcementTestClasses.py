@@ -127,7 +127,6 @@ class ValueIterationTest(testClasses.TestCase):
         values = {}
         qValues = {}
         policy = {}
-#         print "States:",states
         for state in states:
             values[state] = agent.getValue(state)
             policy[state] = agent.computeActionFromValues(state)
@@ -139,16 +138,11 @@ class ValueIterationTest(testClasses.TestCase):
                     qValues[action][state] = agent.computeQValueFromValues(state, action)
                 else:
                     qValues[action][state] = None
-      
         valuesPretty = self.prettyValues(values)
         policyPretty = self.prettyPolicy(policy)
         qValuesPretty = {}
         for action in actions:
             qValuesPretty[action] = self.prettyValues(qValues[action])
-#         print "Values:",valuesPretty
-#         print "qValues:",qValues
-#         print "Policy:",policy
-#         print "Action:",actions
         return (valuesPretty, qValuesPretty, actions, policyPretty)
 
     def prettyPrint(self, elements, formatString):
